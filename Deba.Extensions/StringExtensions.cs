@@ -17,4 +17,7 @@ public static class StringExtensions
 
     public static string OnlyNumbers(this string content) =>
         Regex.Replace(content, @"[^\d]", "");
+
+    public static string OnlyAlphanumeric(this string content) =>
+        Regex.Replace(content, @"[^a-zA-Z0-9]", "");
 }
