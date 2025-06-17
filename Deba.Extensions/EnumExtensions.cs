@@ -18,6 +18,11 @@ public static class EnumExtensions
         return attributes is null ? enumAsString : attributes.Description;
     }
 
+    public static string[] GetAllDescriptions<TEnum>() where TEnum : struct, Enum =>
+        Enum.GetValues<TEnum>()
+            .Select(enumValue => enumValue.GetDescription())
+            .ToArray();
+
     public static TEnum GetValue<TEnum>(string enumDescription) where TEnum : struct, Enum
     {
         var type = typeof(TEnum);
