@@ -52,4 +52,9 @@ public static class EnumExtensions
         var parsedValue = GetValue<TEnum>(enumDescription);
         return EqualityComparer<TEnum>.Default.Equals(parsedValue, enumValue);
     }
+
+    public static bool HasValueGreaterThanZero<TEnum>(this TEnum? enumValue) where TEnum : struct, Enum
+    {
+        return enumValue.HasValue && ((int)(object)enumValue.Value > 0);
+    }
 }
