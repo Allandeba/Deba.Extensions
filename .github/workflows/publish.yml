@@ -13,7 +13,7 @@ on:
         required: true
         default: false
       customPackageVersion:
-        description: Optional package version; leave empty to use GitVersion SemVer
+        description: Optional package version; leave empty to use GitVersion MajorMinorPatch
         type: string
         required: false
         default: ''
@@ -57,7 +57,7 @@ jobs:
 
       - name: Build
         env:
-          PACKAGE_VERSION: ${{ inputs.customPackageVersion || steps.gitversion.outputs.semVer }}
+          PACKAGE_VERSION: ${{ inputs.customPackageVersion || steps.gitversion.outputs.majorMinorPatch }}
         run: dotnet build Deba.Extensions.sln --configuration "$CONFIGURATION" --no-restore -p:GeneratePackageOnBuild=false -p:Version="$PACKAGE_VERSION" -p:PackageVersion="$PACKAGE_VERSION"
 
       - name: Test .NET 10 contracts
@@ -65,7 +65,7 @@ jobs:
 
       - name: Generate package
         env:
-          PACKAGE_VERSION: ${{ inputs.customPackageVersion || steps.gitversion.outputs.semVer }}
+          PACKAGE_VERSION: ${{ inputs.customPackageVersion || steps.gitversion.outputs.majorMinorPatch }}
         run: dotnet pack Deba.Extensions/Deba.Extensions.csproj --configuration "$CONFIGURATION" --no-build --no-restore --output ./artifacts/packages -p:GeneratePackageOnBuild=false -p:Version="$PACKAGE_VERSION" -p:PackageVersion="$PACKAGE_VERSION"
 
       - name: Upload test results
